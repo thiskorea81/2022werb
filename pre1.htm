@@ -6,8 +6,33 @@
 </head>
 
 <body>
+
+    <p id="demo"></p>
+    <p>
+    <form>
+    <label for="xNum">x Num:</label><br>
+    <input type="text" id="xNum" name="xxNum"><br>
+    <label for="yNum">y Num:</label><br>
+    <input type="text" id="yNum" name="yyNum"><br>
+    <input type="button" onclick="cal()" value="계산"><br>
+    </form>
+    </p>
+    
     <img src="img/pre1_1.png" alt="pre1">
     <img src="img/pre1_2.png" alt="pre2">
+        
+    <script>
+    
+    function cal(){
+        x=document.getElementById("xNum").value;
+        y=document.getElementById("yNum").value;
+    
+        x=Number(x);
+        y=Number(y);
+        
+        document.getElementById("demo").innerHTML="결과: "+(x+y);
+    }
+    </script>
 </body>
 
 </html>
