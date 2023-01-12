@@ -9,18 +9,18 @@
   /* Style the header */
   header {
     background-color: #666;
-    height: 180px; 
+    height: 100px; 
     text-align: center;
     font-size: 30px;
     color: white;
-    padding: 20px;
+    padding: 3px;
   }
   
   /* Create two columns/boxes that floats next to each other */
   nav {
     float: left;
-    width: 10%;
-    height: 100%; /* only for demonstration, should be removed */
+    width: 20%;
+    height: 100%;
     background: #ccc;
     padding: 20px;
     font-size: 15px;
@@ -37,15 +37,15 @@
     padding: 20px;
     width: 30%;
     background-color: #f1f1f1;
-    height: 100%; /* only for demonstration, should be removed */
+    height: 100%;
   }
 
   #fr01 {
     float: left;
     padding: 20px;
-    width: 30%;
+    width: 100%;
     background-color: #f1f1f1;
-    height: 100%; /* only for demonstration, should be removed */
+    height: 800px ;
   }
   
   /* Clear floats after the columns */
