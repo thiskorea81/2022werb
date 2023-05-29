@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<title>10진수, 2진수, 보수</title>
+</head>
+<body>
+  <h1>10진수에서 2진수로 변환하기(1의 보수, 2의 보수)</h1>
+  <label for="decimal">10진수를 입력하세요:</label>
+  <input id="decimal" type="text">
+  <button onclick="convertToBinary()">변환</button>
+  <div id="result"></div>
+
+  <script>
+    function convertToBinary() {
+      const decimal = document.getElementById('decimal').value;
+      if (decimal === '' || isNaN(decimal)) {
+        alert('10진수를 입력하세요.');
+        return;
+      }
+
+      // Convert to binary
+      const binary = (decimal >>> 0).toString(2);
+      
+      // Calculate 1's complement
+      const onesComplement = binary.split('').map(bit => bit === '1' ? '0' : '1').join('');
+
+      // Calculate 2's complement
+      let twosComplement = onesComplement.split('');
+      for (let i = twosComplement.length - 1; i >= 0; i--) {
+        if (twosComplement[i] === '1') {
+          twosComplement[i] = '0';
+        } else {
+          twosComplement[i] = '1';
+          break;
+        }
+      }
+      twosComplement = twosComplement.join('');
+
+      // Display results
+      document.getElementById('result').innerHTML = `
+        <p>2진수: ${binary}</p>
+        <p>1의 보수(1's Complement): ${onesComplement}</p>
+        <p>2의 보수(2's Complement): ${twosComplement}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
