@@ -4,6 +4,7 @@
   <title>CPU Scheduler</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../styles.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 
@@ -58,24 +59,27 @@
 <h2>Calculation Details</h2>
 <div id="calculationDetails"></div>
 
-
 <h2>Gantt Chart</h2>
-<div id="ganttChart"></div>
+<div id="chart_div"></div>
 
 <script>
+  google.charts.load('current', {'packages':['timeline']});
+  google.charts.setOnLoadCallback(drawChart);
+
   function calculate() {
     // Clear the results table first
     document.getElementById("resultsTable").innerHTML = "<tr><th>프로세스 Process</th><th>반환시간 Turnaround Time</th><th>대기시간 Waiting Time</th></tr>";
     document.getElementById("calculationDetails").innerHTML = "";
-    var processes = [];
     var totalTurnaround = 0;
     var totalWaiting = 0;
-
+    var processes = [];
+    var chartData = [];
     for (let i = 1; i <= 5; i++) {
       // Get arrival and burst time for each process from the input fields
       var arrival = parseInt(document.getElementById("arrival" + i).value);
       var burst = parseInt(document.getElementById("burst" + i).value);
-      processes.push({arrival, burst});
+
+      processes.push({ arrival: arrival, burst: burst });
     }
 
     processes.sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
@@ -105,13 +109,34 @@
       totalWaiting += waiting;
 
       document.getElementById("calculationDetails").innerHTML += `<p>P${i + 1} : Start - ${start}, End - ${end}, Turnaround - ${turnaround}, Waiting - ${waiting}</p>`;
+
+      chartData.push(['P' + (i + 1), new Date(0, 0, 0, 0, 0, start), new Date(0, 0, 0, 0, 0, end)]);
     }
 
     // Calculate and display the average turnaround time and average waiting time
     var averageTurnaround = totalTurnaround / processes.length;
     var averageWaiting = totalWaiting / processes.length;
     document.getElementById("averages").innerHTML = "Average turnaround time: " + averageTurnaround + "<br>Average waiting time: " + averageWaiting;
+
+    var chart = new google.visualization.Timeline(document.getElementById('chart_div'));
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Process' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+    dataTable.addRows(chartData);
+
+    var options = {
+      height: 400,
+      width: window.innerWidth-20,  // Set chart width to the browser window width
+      gantt: {
+        trackHeight: 30
+      }
+    };
+    chart.draw(dataTable, options);
   }
+
+  // Redraw chart when window is resized
+  window.addEventListener('resize', drawChart);
 </script>
 
 </body>
