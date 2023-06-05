@@ -1,48 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ASCII to Binary Converter</title>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../styles.css">
+  <title>CPU Scheduler</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<h2>ASCII to Binary Converter</h2>
 
-<h3>Convert Character to ASCII Binary</h3>
-<input type="text" id="inputChar" maxlength="1" placeholder="Enter a single character">
-<button onclick="charToASCIIBinary()">Convert</button>
-<p id="charOutput"></p>
+<h2>Enter Process Details</h2>
 
-<h3>Convert ASCII Binary to Character</h3>
-<input type="text" id="inputASCIIBinary" placeholder="Enter a binary value">
-<button onclick="asciiBinaryToChar()">Convert</button>
-<p id="asciiOutput"></p>
+<table id="processTable">
+  <tr>
+    <th>프로세스 Process</th>
+    <th>도착시간 Arrival Time</th> 
+    <th>실행시간 Burst Time</th>
+  </tr>
+  <tr>
+    <td>P1</td>
+    <td><input type="text" id="arrival1" value="0"></td>
+    <td><input type="text" id="burst1" value="10"></td>
+  </tr>
+  <tr>
+    <td>P2</td>
+    <td><input type="text" id="arrival2" value="1"></td>
+    <td><input type="text" id="burst2" value="28"></td>
+  </tr>
+  <tr>
+    <td>P3</td>
+    <td><input type="text" id="arrival3" value="2"></td>
+    <td><input type="text" id="burst3" value="6"></td>
+  </tr>
+  <tr>
+    <td>P4</td>
+    <td><input type="text" id="arrival4" value="3"></td>
+    <td><input type="text" id="burst4" value="4"></td>
+  </tr>
+  <tr>
+    <td>P5</td>
+    <td><input type="text" id="arrival5" value="4"></td>
+    <td><input type="text" id="burst5" value="14"></td>
+  </tr>
+</table>
+
+<button onclick="calculate()">Calculate</button>
+
+<h2>Results</h2>
+<table id="resultsTable">
+  <tr>
+    <th>프로세스 Process</th>
+    <th>반환시간 Turnaround Time</th> 
+    <th>대기시간 Waiting Time</th>
+  </tr>
+</table>
+
+<div id="averages"></div>
+
+<h2>Calculation Details</h2>
+<div id="calculationDetails"></div>
+
+
+<h2>Gantt Chart</h2>
+<div id="ganttChart"></div>
 
 <script>
-function charToASCIIBinary() {
-  var character = document.getElementById("inputChar").value;
-  if (character.length !== 1) {
-    document.getElementById("charOutput").innerHTML = "Please enter a single character.";
-    return;
-  }
-  var asciiBinary = character.charCodeAt(0).toString(2);
-  document.getElementById("charOutput").innerHTML = "The ASCII binary of '" + character + "' is: " + asciiBinary + ".";
-}
+  function calculate() {
+    // Clear the results table first
+    document.getElementById("resultsTable").innerHTML = "<tr><th>프로세스 Process</th><th>반환시간 Turnaround Time</th><th>대기시간 Waiting Time</th></tr>";
+    document.getElementById("calculationDetails").innerHTML = "";
+    var processes = [];
+    var totalTurnaround = 0;
+    var totalWaiting = 0;
 
-function asciiBinaryToChar() {
-  var asciiBinary = document.getElementById("inputASCIIBinary").value;
-  if (asciiBinary.match(/^[01]+$/) === null) {
-    document.getElementById("asciiOutput").innerHTML = "Please enter a valid binary value.";
-    return;
+    for (let i = 1; i <= 5; i++) {
+      // Get arrival and burst time for each process from the input fields
+      var arrival = parseInt(document.getElementById("arrival" + i).value);
+      var burst = parseInt(document.getElementById("burst" + i).value);
+      processes.push({arrival, burst});
+    }
+
+    processes.sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
+    var time = 0;
+
+    for (let i = 0; i < processes.length; i++) {
+      time = Math.max(time, processes[i].arrival);
+      var start = time;
+      time += processes[i].burst;
+      var end = time;
+
+      // calculate turnaround time and waiting time
+      var turnaround = end - processes[i].arrival;
+      var waiting = start - processes[i].arrival;
+
+      // Add the results to the results table
+      var resultsTable = document.getElementById("resultsTable");
+      var row = resultsTable.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = "P" + (i + 1);
+      cell2.innerHTML = turnaround;
+      cell3.innerHTML = waiting;
+
+      totalTurnaround += turnaround;
+      totalWaiting += waiting;
+
+      document.getElementById("calculationDetails").innerHTML += `<p>P${i + 1} : Start - ${start}, End - ${end}, Turnaround - ${turnaround}, Waiting - ${waiting}</p>`;
+    }
+
+    // Calculate and display the average turnaround time and average waiting time
+    var averageTurnaround = totalTurnaround / processes.length;
+    var averageWaiting = totalWaiting / processes.length;
+    document.getElementById("averages").innerHTML = "Average turnaround time: " + averageTurnaround + "<br>Average waiting time: " + averageWaiting;
   }
-  var ascii = parseInt(asciiBinary, 2);
-  if (ascii < 0 || ascii > 127) {
-    document.getElementById("asciiOutput").innerHTML = "Please enter a binary value corresponding to an ASCII value between 0 and 127.";
-    return;
-  }
-  var character = String.fromCharCode(ascii);
-  document.getElementById("asciiOutput").innerHTML = "The character for ASCII binary value " + asciiBinary + " is: '" + character + "'.";
-}
 </script>
 
 </body>
