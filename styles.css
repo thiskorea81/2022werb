@@ -85,7 +85,7 @@
   input[type="text"] {
     width: 80%; /* Adjust the width as necessary */
   }
-  
+
   /* Style the footer */
   footer {
     background-color: #777;
@@ -144,8 +144,3 @@
   height: 100%;
 }
 
-#banner-image {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-}
