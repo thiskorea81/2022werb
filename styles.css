@@ -82,6 +82,10 @@
     color: white;
   }
   
+  input[type="text"] {
+    width: 80%; /* Adjust the width as necessary */
+  }
+  
   /* Style the footer */
   footer {
     background-color: #777;
@@ -90,6 +94,7 @@
     color: white;
   }
   
+
   /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
   @media (max-width: 600px) {
     nav, article {
