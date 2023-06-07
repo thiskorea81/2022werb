@@ -73,23 +73,28 @@
   </div>
 
   <div class="conversion">
-      <h2>16진수를 2진수, 8진수로 Convert Hexadecimal to Binary, Decimal</h2>
+      <h2>16진수를 2진수, 10진수로 Convert Hexadecimal to Binary, Decimal</h2>
       <input type="text" id="hexadecimalInput" placeholder="Enter a hexadecimal number">
       <button onclick="convertHexadecimal()">변환 Convert</button>
       <p id="hexadecimalOutput"></p>
   </div>
-
-  <div>
-      <h2>문제 생성 Random Questions</h2>
-      <button onclick="generateQuestion10()">Generate</button>
-      <p id="question"></p>
-  </div>
 </div>
+
 <script>
   const questionTypes10 = [
       "10진수 숫자 {number}를 2진수로 변환하시오 Convert the decimal number {number} to binary.",
       "10진수 숫자 {number}를 8진수로 변환하시오 Convert the decimal number {number} to octal.",
       "10진수 숫자 {number}를 16진수로 변환하시오 Convert the decimal number {number} to hexadecimal."
+  ];
+
+  const questionTypes2 = [
+      "2진수 숫자 {number}를 8진수로 변환하시오 Convert the binary number {number} to octal.",
+      "2진수 숫자 {number}를 10진수로 변환하시오 Convert the binary number {number} to decimal.",
+      "2진수 숫자 {number}를 16진수로 변환하시오 Convert the binary number {number} to hexadecimal."
+  ];
+
+  const questionTypes16 = [
+    "16진수 숫자 {number}를 2진수로 변환하시오 Convert the hexadecimal number {number} to binary."
   ];
 
   function convertDecimalToBinary() {
@@ -112,100 +117,6 @@
       let decimal = parseInt(hexadecimal, 16);
       document.getElementById("hexadecimalOutput").innerHTML = `2진수 Binary: ${binary}, 10진수 Decimal: ${decimal}`;
   }
-
-  let answers = [];  // to store the correct answers
-
-  function generateQuestion10() {
-    document.getElementById("question").innerHTML = "";  // Clear previous questions
-    answers = [];  // reset answers
-    for (let i = 0; i < 3; i++) {
-     let questionType = questionTypes10[Math.floor(Math.random() * questionTypes10.length)];
-     let number = Math.floor(Math.random() * 100);
-     let question = questionType.replace("{number}", number);
-     if (questionType.includes("binary")) {
-       answers.push(number.toString(2));
-     } else if (questionType.includes("octal")) {
-       answers.push(number.toString(8));
-     } else if (questionType.includes("hexadecimal")) {
-       answers.push(number.toString(16));
-     }
-     // Add each question to the web page
-     document.getElementById("question").innerHTML += "<p>" + (i+1) + ". " + question + " <input type='text' id='answer"+i+"'/> </p>";
-    }
-    // Add a button to check the answers
-    document.getElementById("question").innerHTML += "<button onclick='checkAnswers()'>답을 확인 Check Answers</button>";
-  }
-
-  const questionTypes2 = [
-      "2진수 숫자 {number}를 8진수로 변환하시오 Convert the binary number {number} to octal.",
-      "2진수 숫자 {number}를 10진수로 변환하시오 Convert the binary number {number} to decimal.",
-      "2진수 숫자 {number}를 16진수로 변환하시오 Convert the binary number {number} to hexadecimal."
-  ];
-
-  function generateQuestion2() {
-    document.getElementById("question").innerHTML = "";  // Clear previous questions
-    answers = [];  // reset answers
-    for (let i = 0; i < 3; i++) {
-      let questionType = questionTypes2[Math.floor(Math.random() * questionTypes2.length)];
-     let number = Math.floor(Math.random() * 100).toString(2);  // generate binary numbers
-     let question = questionType.replace("{number}", number);
-     if (questionType.includes("octal")) {
-       answers.push(parseInt(number, 2).toString(8));
-     } else if (questionType.includes("decimal")) {
-       answers.push(parseInt(number, 2).toString(10));
-     } else if (questionType.includes("hexadecimal")) {
-       answers.push(parseInt(number, 2).toString(16));
-     }
-     // Add each question to the web page
-     document.getElementById("question").innerHTML += "<p>" + (i+1) + ". " + question + " <input type='text' id='answer"+i+"'/> </p>";
-    }
-    // Add a button to check the answers
-    document.getElementById("question").innerHTML += "<button onclick='checkAnswers()'>답을 확인 Check Answers</button>";
-  }
-
-  const questionTypes16 = [
-    "16진수 숫자 {number}를 2진수로 변환하시오 Convert the hexadecimal number {number} to binary.",
-    "16진수 숫자 {number}를 8진수로 변환하시오 Convert the hexadecimal number {number} to octal."
-  ];
-
-  function generateQuestion16() {
-   document.getElementById("question").innerHTML = "";  // Clear previous questions
-   answers = [];  // reset answers
-   for (let i = 0; i < 3; i++) {
-     let questionType = questionTypes16[Math.floor(Math.random() * questionTypes16.length)];
-     let number = (Math.floor(Math.random() * 256)).toString(16);  // generate hexadecimal numbers
-     let question = questionType.replace("{number}", number);
-     if (questionType.includes("binary")) {
-       answers.push((parseInt(number, 16)).toString(2));
-     } else if (questionType.includes("octal")) {
-       answers.push((parseInt(number, 16)).toString(8));
-     }
-     // Add each question to the web page
-     document.getElementById("question").innerHTML += "<p>" + (i+1) + ". " + question + " <input type='text' id='answer"+i+"'/> </p>";
-   }
-   // Add a button to check the answers
-   document.getElementById("question").innerHTML += "<button onclick='checkAnswers()'>답을 확인 Check Answers</button>";
-  }
-
-  // Automatically generate questions when the page loads
-  window.onload = function() {
-   generateQuestion10();
-   generateQuestion2();
-   generateQuestion16();
-  }
-
-
-  function checkAnswers() {
-    for (let i = 0; i < 3; i++) {
-     let userAnswer = document.getElementById("answer"+i).value;
-     if (userAnswer === answers[i]) {
-      alert("Question "+(i+1)+" is correct!");
-      } else {
-      alert("Question "+(i+1)+" is wrong. The correct answer is "+answers[i]);
-      }
-    }
-  }
-
 </script>
 </body>
 </html> 
