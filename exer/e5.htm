@@ -99,9 +99,8 @@
       } else {
         // If there isn't a carry, take 1's complement of the result and add a negative sign
         let complement = result.split('').map(bit => bit === '1' ? '0' : '1').join('');
-        // result = '-' + complement;
-        steps.push(`Take 1's Complement of ${result.slice(1)} = ${complement}`);
         result = '-' + complement;
+        steps.push(`Take 1's Complement of ${result.slice(1)} = ${complement}`);
       }
 
       // Display results
@@ -143,9 +142,8 @@
       } else {
         // If there isn't a carry, take 2's complement of the result and add a negative sign
         let complement = binaryAdd(result.split('').map(bit => bit === '1' ? '0' : '1').join(''), '1');
-        //result = '-' + complement;
-        steps.push(`Take 2's Complement of ${result.slice(1)} = ${complement}`);
         result = '-' + complement;
+        steps.push(`Take 2's Complement of ${result.slice(1)} = ${complement}`);
       }
 
       // Display results
