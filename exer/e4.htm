@@ -6,10 +6,10 @@
 <title>10진수, 2진수, 보수</title>
 </head>
 <body>
-    <h1>Decimal to Binary Converter</h1>
-    <label for="decimal">Enter a decimal number:</label>
+    <h1>10진수를 2진수로 변환(1의 보수, 2의 보수 포함) Decimal to Binary Converter</h1>
+    <label for="decimal">10진수를 입력하세요 Enter a decimal number:</label>
     <input id="decimal" type="text">
-    <button onclick="convertToBinary()">Convert</button>
+    <button onclick="convertToBinary()">변환 Convert</button>
     <div id="result"></div>
   
     <script>
@@ -48,56 +48,54 @@
   
         // Display results
         document.getElementById('result').innerHTML = `
-          <p>Binary: ${binary}</p>
-          <p>1's Complement: ${onesComplement}</p>
-          <p>2's Complement: ${twosComplement}</p>
+          <p>2진수 Binary: ${binary}</p>
+          <p>1의 보수 1's Complement: ${onesComplement}</p>
+          <p>2의 보수 2's Complement: ${twosComplement}</p>
         `;
       }
     </script>
 
 <div class="container">
-  <h1>Number System Converter</h1>
+  <h1>진수 변환 Number System Converter</h1>
   
   <div class="conversion">
-      <h2>Convert Decimal to Binary</h2>
+      <h2>10진수를 2진수로 Convert Decimal to Binary</h2>
       <input type="number" id="decimalToBinary" placeholder="Enter a decimal number">
-      <button onclick="convertDecimalToBinary()">Convert</button>
+      <button onclick="convertDecimalToBinary()">변환 Convert</button>
       <p id="decimalToBinaryOutput"></p>
   </div>
   
   <div class="conversion">
-      <h2>Convert Binary to Decimal, Octal, Hexadecimal</h2>
+      <h2>2진수를 10진수, 8진수, 16진수로 Convert Binary to Decimal, Octal, Hexadecimal</h2>
       <input type="text" id="binaryInput" placeholder="Enter a binary number">
-      <button onclick="convertBinary()">Convert</button>
+      <button onclick="convertBinary()">변환 Convert</button>
       <p id="binaryOutput"></p>
   </div>
 
   <div class="conversion">
-      <h2>Convert Hexadecimal to Binary, Decimal</h2>
+      <h2>16진수를 2진수, 8진수로 Convert Hexadecimal to Binary, Decimal</h2>
       <input type="text" id="hexadecimalInput" placeholder="Enter a hexadecimal number">
-      <button onclick="convertHexadecimal()">Convert</button>
+      <button onclick="convertHexadecimal()">변환 Convert</button>
       <p id="hexadecimalOutput"></p>
   </div>
 
   <div>
-      <h2>Random Questions</h2>
+      <h2>문제 생성 Random Questions</h2>
       <button onclick="generateQuestion()">Generate</button>
       <p id="question"></p>
   </div>
 </div>
 <script>
-  const questionTypes = [
-      "Convert the decimal number {number} to binary.",
-      "Convert the binary number {number} to decimal.",
-      "Convert the binary number {number} to hexadecimal.",
-      "Convert the hexadecimal number {number} to binary.",
-      "Convert the hexadecimal number {number} to decimal."
+  const questionTypes10 = [
+      "10진수 숫자 {number}를 2진수로 변환하시오 Convert the decimal number {number} to binary.",
+      "10진수 숫자 {number}를 8진수로 변환하시오 Convert the decimal number {number} to octal.",
+      "10진수 숫자 {number}를 16진수로 변환하시오 Convert the decimal number {number} to hexadecimal."
   ];
 
   function convertDecimalToBinary() {
       let decimal = document.getElementById("decimalToBinary").value;
       let binary = parseInt(decimal, 10).toString(2);
-      document.getElementById("decimalToBinaryOutput").innerHTML = `Binary: ${binary}`;
+      document.getElementById("decimalToBinaryOutput").innerHTML = `2진수 Binary: ${binary}`;
   }
 
   function convertBinary() {
@@ -105,31 +103,50 @@
       let decimal = parseInt(binary, 2);
       let octal = parseInt(binary, 2).toString(8);
       let hexadecimal = parseInt(binary, 2).toString(16);
-      document.getElementById("binaryOutput").innerHTML = `Decimal: ${decimal}, Octal: ${octal}, Hexadecimal: ${hexadecimal}`;
+      document.getElementById("binaryOutput").innerHTML = `10진수 Decimal: ${decimal}, 8진수 Octal: ${octal}, 16진수 Hexadecimal: ${hexadecimal}`;
   }
 
   function convertHexadecimal() {
       let hexadecimal = document.getElementById("hexadecimalInput").value;
       let binary = parseInt(hexadecimal, 16).toString(2);
       let decimal = parseInt(hexadecimal, 16);
-      document.getElementById("hexadecimalOutput").innerHTML = `Binary: ${binary}, Decimal: ${decimal}`;
+      document.getElementById("hexadecimalOutput").innerHTML = `2진수 Binary: ${binary}, 10진수 Decimal: ${decimal}`;
   }
+
+  let answers = [];  // to store the correct answers
 
   function generateQuestion() {
     document.getElementById("question").innerHTML = "";  // Clear previous questions
-    for (let i = 0; i < 5; i++) {
-        let questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-        let number = Math.floor(Math.random() * 100);
-        if (questionType.includes("binary") && !questionType.includes("to")) {
-            number = number.toString(2);
-        } else if (questionType.includes("hexadecimal") && !questionType.includes("to")) {
-            number = number.toString(16);
-        }
-        let question = questionType.replace("{number}", number);
-        // Add each question to the web page
-        document.getElementById("question").innerHTML += "<p>" + (i+1) + ". " + question + "</p>";
+    answers = [];  // reset answers
+    for (let i = 0; i < 3; i++) {
+     let questionType = questionTypes10[Math.floor(Math.random() * questionTypes10.length)];
+     let number = Math.floor(Math.random() * 100);
+     let question = questionType.replace("{number}", number);
+     if (questionType.includes("binary")) {
+       answers.push(number.toString(2));
+     } else if (questionType.includes("octal")) {
+       answers.push(number.toString(8));
+     } else if (questionType.includes("hexadecimal")) {
+       answers.push(number.toString(16));
+     }
+     // Add each question to the web page
+     document.getElementById("question").innerHTML += "<p>" + (i+1) + ". " + question + " <input type='text' id='answer"+i+"'/> </p>";
+    }
+    // Add a button to check the answers
+    document.getElementById("question").innerHTML += "<button onclick='checkAnswers()'>답을 확인 Check Answers</button>";
+  }
+
+  function checkAnswers() {
+    for (let i = 0; i < 3; i++) {
+     let userAnswer = document.getElementById("answer"+i).value;
+     if (userAnswer === answers[i]) {
+      alert("Question "+(i+1)+" is correct!");
+      } else {
+      alert("Question "+(i+1)+" is wrong. The correct answer is "+answers[i]);
+      }
     }
   }
+
 </script>
 </body>
 </html> 
