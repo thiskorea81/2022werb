@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../styles.css">
-<title>IPv4를 2진수로 변환 퀴즈</title>
+<title>16진수 색상 코드를 10진수로 변환 퀴즈</title>
 <style>
     .wrong {
         color: red;
@@ -16,7 +16,7 @@
 <body>
     
 <div class="container">
-  <h1>IPv4를 2진수로 변환 퀴즈</h1>
+  <h1>16진수 색상 코드를 10진수로 변환 퀴즈</h1>
 
   <label for="numQuestions">문제 개수 입력: </label><input id="numQuestions" type="number" min="1">
   <button onclick="generateQuestions()">문제 생성</button>
@@ -36,18 +36,18 @@
 </div>
 
 <script>
-    // IPv4 주소를 생성
-    function generateIPv4() {
-        let ipAddress = [];
-        for (let i = 0; i < 4; i++) {
-            ipAddress.push(Math.floor(Math.random() * 256));  // 각 부분은 0부터 255 사이의 값
+    // 임의의 16진수 색상 코드를 생성
+    function generateHexColor() {
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += Math.floor(Math.random() * 16).toString(16);
         }
-        return ipAddress.join('.');
+        return color;
     }
 
-    // 10진수를 2진수로 변환
-    function convertToBinary(decimal) {
-        return decimal.toString(2).padStart(8, '0');  // 앞에 0을 추가하여 8비트로 만듦
+    // 16진수를 10진수로 변환
+    function convertHexToDec(hex) {
+        return parseInt(hex, 16);
     }
 
     // 문제를 생성하고 페이지에 삽입
@@ -59,13 +59,13 @@
         }
         document.getElementById('questions').innerHTML = "";
         for (let i = 0; i < numQuestions; i++) {
-            let ipv4 = generateIPv4();
-            let binary = ipv4.split('.').map(part => convertToBinary(parseInt(part))).join('.');
+            let hexColor = generateHexColor();
+            let rgb = hexColor.match(/.{1,2}/g).slice(1).map(hex => convertHexToDec(hex)).join(', ');
             let questionHTML = `
                 <div class="question">
-                    <p>${i+1}. IPv4 주소 ${ipv4}를 2진수로 변환하시오:</p>
+                    <p>${i+1}. 16진수 색상 코드 ${hexColor}를 10진수 (RGB 값)로 변환하시오:</p>
                     <input type="text" id="answer${i}">
-                    <p id="correctAnswer${i}" style="display: none;">${binary}</p>
+                    <p id="correctAnswer${i}" style="display: none;">${rgb}</p>
                 </div>
             `;
             document.getElementById('questions').innerHTML += questionHTML;

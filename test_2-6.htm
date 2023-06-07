@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../styles.css">
-<title>IPv4를 2진수로 변환 퀴즈</title>
+<title>2진수 IPv4 주소를 10진수로 변환 퀴즈</title>
 <style>
     .wrong {
         color: red;
@@ -16,7 +16,7 @@
 <body>
     
 <div class="container">
-  <h1>IPv4를 2진수로 변환 퀴즈</h1>
+  <h1>2진수 IPv4 주소를 10진수로 변환 퀴즈</h1>
 
   <label for="numQuestions">문제 개수 입력: </label><input id="numQuestions" type="number" min="1">
   <button onclick="generateQuestions()">문제 생성</button>
@@ -36,18 +36,18 @@
 </div>
 
 <script>
-    // IPv4 주소를 생성
-    function generateIPv4() {
-        let ipAddress = [];
+    // 임의의 2진수 IPv4 주소를 생성
+    function generateBinaryIPv4() {
+        let binaryIPv4 = [];
         for (let i = 0; i < 4; i++) {
-            ipAddress.push(Math.floor(Math.random() * 256));  // 각 부분은 0부터 255 사이의 값
+            binaryIPv4.push(Math.floor(Math.random() * 256).toString(2).padStart(8, '0'));  // 각 부분은 8비트 2진수
         }
-        return ipAddress.join('.');
+        return binaryIPv4.join('.');
     }
 
-    // 10진수를 2진수로 변환
-    function convertToBinary(decimal) {
-        return decimal.toString(2).padStart(8, '0');  // 앞에 0을 추가하여 8비트로 만듦
+    // 2진수를 10진수로 변환
+    function convertBinaryToDecimal(binary) {
+        return parseInt(binary, 2);
     }
 
     // 문제를 생성하고 페이지에 삽입
@@ -59,13 +59,13 @@
         }
         document.getElementById('questions').innerHTML = "";
         for (let i = 0; i < numQuestions; i++) {
-            let ipv4 = generateIPv4();
-            let binary = ipv4.split('.').map(part => convertToBinary(parseInt(part))).join('.');
+            let binaryIPv4 = generateBinaryIPv4();
+            let decimalIPv4 = binaryIPv4.split('.').map(part => convertBinaryToDecimal(part)).join('.');
             let questionHTML = `
                 <div class="question">
-                    <p>${i+1}. IPv4 주소 ${ipv4}를 2진수로 변환하시오:</p>
+                    <p>${i+1}. 2진수 IPv4 주소 ${binaryIPv4}를 10진수로 변환하시오:</p>
                     <input type="text" id="answer${i}">
-                    <p id="correctAnswer${i}" style="display: none;">${binary}</p>
+                    <p id="correctAnswer${i}" style="display: none;">${decimalIPv4}</p>
                 </div>
             `;
             document.getElementById('questions').innerHTML += questionHTML;
