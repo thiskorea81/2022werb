@@ -100,7 +100,7 @@
         // If there isn't a carry, take 1's complement of the result and add a negative sign
         let complement = result.split('').map(bit => bit === '1' ? '0' : '1').join('');
         result = '-' + complement;
-        steps.push(`Take 1's Complement of ${result} = ${complement}`);
+        steps.push(`Take 1's Complement of ${complement.split('').map(bit => bit === '1' ? '0' : '1').join('')} = ${complement}`);
       }
 
       // Display results
