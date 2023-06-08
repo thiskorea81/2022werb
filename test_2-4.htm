@@ -78,4 +78,41 @@
         let resultsTable = document.getElementById('resultsTable');
         resultsTable.innerHTML = "<tr><th>문제 번호</th><th>결과</th></tr>";
         let numQuestions = document.getElementById('numQuestions').value;
-        for (let i = 
+        for (let i = 0; i < numQuestions; i++) {
+            let userAnswer = document.getElementById(`answer${i}`).value;
+            let correctAnswer = document.getElementById(`correctAnswer${i}`).innerText;
+            let resultRow = document.createElement('tr');
+            resultRow.innerHTML = `<td>${i+1}</td><td>${userAnswer.toLowerCase() === correctAnswer ? 'O' : 'X'}</td>`;
+            if (userAnswer.toLowerCase() !== correctAnswer) {
+                resultRow.classList.add('wrong');
+            }
+            resultsTable.appendChild(resultRow);
+        }
+        document.getElementById("resetButton").style.display = "block";
+    }
+
+    // 틀린 답안을 재도전
+    function retryAnswers() {
+        let numQuestions = document.getElementById('numQuestions').value;
+        for (let i = 0; i < numQuestions; i++) {
+            let userAnswer = document.getElementById(`answer${i}`).value;
+            let correctAnswer = document.getElementById(`correctAnswer${i}`).innerText;
+            if (userAnswer.toLowerCase() !== correctAnswer) {
+                document.getElementById(`answer${i}`).value = "";
+            } else {
+                document.getElementById(`answer${i}`).classList.add('correct');
+            }
+        }
+        document.getElementById("retryButton").style.display = "none";
+    }
+
+    // 문제를 초기화
+    function resetQuestions() {
+        document.getElementById('questions').innerHTML = "";
+        document.getElementById('resultsTable').innerHTML = "";
+        document.getElementById("resetButton").style.display = "none";
+    }
+
+</script>
+</body>
+</html>
