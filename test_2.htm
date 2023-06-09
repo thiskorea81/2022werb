@@ -52,18 +52,36 @@ function generateQuestions() {
     let questionCount = 1;
     let questionHTML = "";
 
-    // 10진수 -> 2, 8, 16진수 변환 문제 2개씩
+    // 10진수 -> 2진수 변환 문제 2개씩
     for (let j = 0; j < 2; j++){
-        
-        for (let i = 0; i < 3; i++) {
-            let decNumber = generateNumber();
-            let decToBase = convertNumber(decNumber, bases[i]);
-            questionHTML += `
-                <div class="question">
-                    <p>${questionCount++}. 10진수 ${decNumber}를 ${baseNames[i]}로 변환하면?: <span class="correctAnswer">${decToBase}</span></p>
-                </div>
-            `;
-        }
+        let decNumber = generateNumber();
+        let decToBase = convertNumber(decNumber, bases[0]);
+        questionHTML += `
+            <div class="question">
+                <p>${questionCount++}. 10진수 ${decNumber}를 ${baseNames[0]}로 변환하면?: <span class="correctAnswer">${decToBase}</span></p>
+            </div>
+        `;
+    }
+    // 10진수 -> 8진수 변환 문제 2개씩
+    for (let j = 0; j < 2; j++){
+        let decNumber = generateNumber();
+        let decToBase = convertNumber(decNumber, bases[1]);
+        questionHTML += `
+            <div class="question">
+                <p>${questionCount++}. 10진수 ${decNumber}를 ${baseNames[1]}로 변환하면?: <span class="correctAnswer">${decToBase}</span></p>
+            </div>
+        `;
+    }
+
+    // 10진수 -> 16진수 변환 문제 2개씩    
+    for (let j = 0; j < 2; j++){
+        let decNumber = generateNumber();
+        let decToBase = convertNumber(decNumber, bases[2]);
+        questionHTML += `
+            <div class="question">
+                <p>${questionCount++}. 10진수 ${decNumber}를 ${baseNames[2]}로 변환하면?: <span class="correctAnswer">${decToBase}</span></p>
+            </div>
+        `;
     }
 
     // 2진수 -> 10진수 변환 문제 2개
