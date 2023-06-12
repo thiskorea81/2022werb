@@ -161,11 +161,12 @@ function generateQuestions() {
     // IP 주소 문제
     let ipv4 = Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
     let ipv4_2 = Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
-    let binaryIpv4 = ipv4_2.split('.').map(part => parseInt(part).toString(2).padStart(8, '0')).join('.');
+    let binaryIpv4 = ipv4.split('.').map(part => parseInt(part).toString(2).padStart(8, '0')).join('.');
+    let binaryIpv4_2 = ipv4_2.split('.').map(part => parseInt(part).toString(2).padStart(8, '0')).join('.');
     questionHTML += `
         <div class="question">
             <p>${questionCount++}. IPv4 주소 ${ipv4}를 2진수로 변환하면?: <span class="correctAnswer">${binaryIpv4}</span></p>
-            <p>${questionCount++}. 2진수 IPv4 주소 ${binaryIpv4}를 10진수로 변환하면?: <span class="correctAnswer">${ipv4_2}</span></p>
+            <p>${questionCount++}. 2진수 IPv4 주소 ${binaryIpv4_2}를 10진수로 변환하면?: <span class="correctAnswer">${ipv4_2}</span></p>
         </div>
     `;
 
