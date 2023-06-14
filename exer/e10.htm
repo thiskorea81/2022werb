@@ -88,7 +88,7 @@
 
     processes.sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
 
-    var time = 0;
+    var time = processes[0].arrival;
     var totalTurnaround = 0;
     var totalWaiting = 0;
 
@@ -178,7 +178,7 @@
     }
 
     processes.sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
-    var time = 0;
+    var time = processes[0].arrival;
     var totalWaiting = 0;
 
     while (processes.length > 0) {
