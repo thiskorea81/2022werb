@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,6 +80,8 @@
     var timeQuantum = parseInt(document.getElementById("timeQuantum").value);
     var processes = [];
     var chartData = [];
+    var results = [];  // to store the results
+
     for (let i = 1; i <= 5; i++) {
       var arrival = parseInt(document.getElementById("arrival" + i).value);
       var burst = parseInt(document.getElementById("burst" + i).value);
@@ -111,18 +114,25 @@
         totalTurnaround += turnaround;
         totalWaiting += waiting;
 
-        var resultsTable = document.getElementById("resultsTable");
-        var row = resultsTable.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        cell1.innerHTML = process.name;
-        cell2.innerHTML = turnaround;
-        cell3.innerHTML = waiting;
-     }
-      
+        // Add to results array instead of directly updating the resultsTable
+        results.push({ name: process.name, turnaround: turnaround, waiting: waiting });
+      }
+
       document.getElementById("calculationDetails").innerHTML += `<p>${process.name} : Start - ${start}, End - ${end}, Waiting - ${waiting}</p>`;
       chartData.push([process.name, new Date(0, 0, 0, 0, 0, start), new Date(0, 0, 0, 0, 0, end)]);
+    }
+
+    // Sort the results by process name and update the resultsTable
+    results.sort((a, b) => a.name.localeCompare(b.name));
+    var resultsTable = document.getElementById("resultsTable");
+    for (let result of results) {
+      var row = resultsTable.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = result.name;
+      cell2.innerHTML = result.turnaround;
+      cell3.innerHTML = result.waiting;
     }
 
     var averageTurnaround = totalTurnaround / 5;
